@@ -1,4 +1,4 @@
-package github
+package internal
 
 import (
 	"fmt"
@@ -9,8 +9,8 @@ import (
 	"strings"
 )
 
-func Approve(pr, username, password string) error {
-	url, err := validateAddress(pr, username, password)
+func GitHubApprove(pr, username, password string) error {
+	url, err := prIntoReviewAddress(pr, username, password)
 	if err != nil {
 		return err
 	}
@@ -32,13 +32,16 @@ func Approve(pr, username, password string) error {
 	if err != nil {
 		return err
 	}
-	fmt.Printf("%s\n%s\n", resp.Status, respBody)
+
+	if resp.StatusCode != 200 {
+		fmt.Printf("%s\n%s\n", resp.Status, respBody)
+	}
 	return nil
 }
 
 var rPR = regexp.MustCompile(`https://github.com/(.*)/(.*)/pull/(.*)`)
 
-func validateAddress(pr, username, password string) (*url.URL, error) {
+func prIntoReviewAddress(pr, username, password string) (*url.URL, error) {
 	matches := rPR.FindStringSubmatch(pr)
 	if len(matches) == 0 {
 		return nil, fmt.Errorf("not a valid pr: %s", pr)

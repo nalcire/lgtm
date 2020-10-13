@@ -4,7 +4,7 @@ import (
 	"os"
 
 	"github.com/kelseyhightower/envconfig"
-	"github.com/nalcire/lgtm/internal/github"
+	"github.com/nalcire/lgtm/internal"
 )
 
 type Specs struct {
@@ -17,5 +17,5 @@ func main() {
 
 	var s Specs
 	envconfig.Process("lgtm", &s)
-	github.Approve(pr, s.Username, s.Password)
+	internal.GitHubApprove(pr, s.Username, s.Password)
 }
