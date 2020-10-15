@@ -9,7 +9,7 @@ import (
 
 type Specs struct {
 	Username string
-	Password string
+	Token    string
 }
 
 func main() {
@@ -17,5 +17,5 @@ func main() {
 
 	var s Specs
 	envconfig.Process("lgtm", &s)
-	internal.GitHubApprove(pr, s.Username, s.Password)
+	internal.GitHubApprove(pr, s.Username, s.Token)
 }

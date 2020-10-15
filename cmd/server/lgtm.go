@@ -8,6 +8,7 @@ import (
 )
 
 func main() {
-	http.HandleFunc("/slack/lgtm", internal.SlackHandler)
+	s := internal.NewServer("lgtm")
+	http.HandleFunc("/slack/lgtm", s.SlackHandler)
 	log.Fatal(http.ListenAndServe(":8080", nil))
 }
