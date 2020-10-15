@@ -34,7 +34,7 @@ func GitHubApprove(pr, username, password string) error {
 	}
 
 	if resp.StatusCode != 200 {
-		fmt.Printf("%s\n%s\n", resp.Status, respBody)
+		return fmt.Errorf("%s\n%s", resp.Status, respBody)
 	}
 	return nil
 }
