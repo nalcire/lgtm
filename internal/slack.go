@@ -25,6 +25,7 @@ type MessageCallback struct {
 		Type    string
 		Text    string
 		Channel string
+		User    string
 	}
 }
 
@@ -98,7 +99,8 @@ func (s *Server) message(w http.ResponseWriter, event []byte) {
 		return
 	}
 
-	err = GitHubApprove(m[1], s.GithubUser, s.GithubToken)
+	// can get username from id and cache it
+	err = GitHubApprove(payload.Event.User, m[1], s.GithubUser, s.GithubToken)
 	text := "👍 LGTM"
 	if err != nil {
 		text = err.Error()

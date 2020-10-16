@@ -9,13 +9,13 @@ import (
 	"strings"
 )
 
-func GitHubApprove(pr, username, password string) error {
+func GitHubApprove(caller, pr, username, password string) error {
 	url, err := prIntoReviewAddress(pr, username, password)
 	if err != nil {
 		return err
 	}
 
-	body := `{"body":"lgtm 👍","event":"APPROVE"}`
+	body := fmt.Sprintf(`{"body":"%s 🤖 👍","event":"APPROVE"}`, caller)
 	client := http.Client{}
 	req, err := http.NewRequest("POST", url.String(), strings.NewReader(body))
 	if err != nil {
