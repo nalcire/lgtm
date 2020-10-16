@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"os"
 
 	"github.com/kelseyhightower/envconfig"
@@ -17,5 +18,8 @@ func main() {
 
 	var s Specs
 	envconfig.Process("lgtm", &s)
-	internal.GitHubApprove(pr, s.Username, s.Token)
+	err := internal.GitHubApprove(pr, s.Username, s.Token)
+	if err != nil {
+		fmt.Print(err.Error())
+	}
 }
